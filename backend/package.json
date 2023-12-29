@@ -1,0 +1,19 @@
+{
+  "private": true,
+  "name": "backend",
+  "type": "module",
+  "scripts": {
+    "serve": "node server.js"
+  },
+  "dependencies": {
+    "body-parser": "^1.20.2",
+    "compression": "^1.7.4",
+    "cors": "^2.8.5",
+    "dotenv": "^16.3.1",
+    "express": "^4.18.2",
+    "express-oauth2-jwt-bearer": "^1.6.0",
+    "helmet": "^7.1.0",
+    "hpp": "github:samtayl/hpp",
+    "xss-clean": "^0.1.4"
+  }
+}
