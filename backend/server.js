@@ -1,26 +1,25 @@
 import {createServer} from 'http';
+import {promisify} from 'util';
 import 'dotenv/config';
 import app from './app/index.js';
 
 const server = createServer();
+const listen = promisify(server.listen).bind(server);
+const close = promisify(server.close).bind(server);
+
+let serverIsStarting = false;
+let serverHasStarted = false;
+let serverShouldStop = false;
 
 const startServer = async () => {
   console.log('Starting server');
 
-  await new Promise((resolve, reject) => {
-    server.listen(
-      process.env.PORT || 8080,
-      process.env.HOSTNAME || 'localhost',
-      (error) => {
-        if (error) {
-          reject(error);
-          return;
-        }
+  serverIsStarting = true;
 
-        resolve();
-      },
-    );
-  });
+  await listen(process.env.PORT || 8080, process.env.HOSTNAME || 'localhost');
+
+  serverIsStarting = false;
+  serverHasStarted = true;
 
   const {
     family: boundFamily,
@@ -33,40 +32,35 @@ const startServer = async () => {
     : boundHostname;
 
   console.log(`Server started at http://${boundHostnameString}:${boundPort}`);
+
+  if (serverShouldStop) {
+    await stopServer();
+  }
 };
 
 const stopServer = async () => {
   try {
     console.log('Stopping server');
 
-    await new Promise((resolve, reject) => {
-      server.close((error) => {
-        if (error) {
-          reject(error);
-          return;
-        }
-
-        resolve();
-      });
-    });
+    await close();
 
     console.log('Server stopped');
   }
   catch (firstError) {
     if (firstError.code === 'ERR_SERVER_NOT_RUNNING') {
-      console.log('Server is not running. If server is starting, will stop once started.');
+      if (serverIsStarting) {
+        console.log('Server is starting. Will stop when started.');
 
-      await new Promise((resolve, reject) => {
-        server.once('listening', async () => {
-          try {
-            await stopServer();
-            resolve();
-          }
-          catch (secondError) {
-            reject(secondError);
-          }
-        });
-      });
+        serverShouldStop = true;
+      }
+      else if (serverHasStarted) {
+        console.log('Server has started. Will stop server.');
+
+        await stopServer();
+      }
+      else {
+        console.log('Server has not started and is not starting');
+      }
     }
     else {
       throw firstError;
@@ -82,4 +76,4 @@ for (const eventName of ['SIGINT', 'SIGTERM']) {
 
 server.on('request', app);
 
-await startServer();
+startServer();
