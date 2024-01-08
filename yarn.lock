@@ -2002,6 +2002,8 @@ __metadata:
     jest: "npm:^29.7.0"
     wait-on: "npm:^7.2.0"
     xss-clean: "npm:^0.1.4"
+  bin:
+    serve: ./bin/serve.js
   languageName: unknown
   linkType: soft
 

@@ -5,7 +5,7 @@ const waitOn = require('wait-on');
 
 dotenv.config({path: path.resolve(__dirname, 'fixtures/.env')});
 
-const startServerScriptPath = path.resolve(__dirname, '../server.js');
+const startServerScriptPath = path.resolve(__dirname, '../bin/serve.js');
 const fixturesPath = path.resolve(__dirname, 'fixtures');
 
 test('the server starts', async () => {

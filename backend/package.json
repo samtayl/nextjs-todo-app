@@ -3,10 +3,14 @@
   "name": "backend",
   "type": "module",
   "files": [
-    "./app"
+    "bin",
+    "app",
+    "server.js"
   ],
+  "bin": {
+    "serve": "./bin/serve.js"
+  },
   "scripts": {
-    "serve": "node server.js",
     "test": "jest"
   },
   "dependencies": {
