@@ -48,9 +48,9 @@ class Server {
   }
 
   async stop() {
-    try {
-      console.log('Stopping server');
+    console.log('Stopping server');
 
+    if (this.state === SERVER_STATES.STARTED) {
       this.state = SERVER_STATES.STOPPING;
 
       await this.close();
@@ -59,28 +59,16 @@ class Server {
 
       console.log('Server stopped');
     }
-    catch (error) {
-      if (error.code === 'ERR_SERVER_NOT_RUNNING') {
-        if (this.state === SERVER_STATES.STARTING) {
-          console.log('Server is starting. Will stop when started.');
+    else if (this.state === SERVER_STATES.STARTING) {
+      console.log('Server is starting. Will stop when started.');
 
-          this.shouldStop = true;
-        }
-        else if (this.state === SERVER_STATES.STARTED) {
-          console.log('Server has started. Will stop server.');
-
-          await this.stop();
-        }
-        else if (this.state === SERVER_STATES.STOPPING) {
-          console.log('Server is already stopping');
-        }
-        else {
-          console.log('Server has not started and is not starting');
-        }
-      }
-      else {
-        throw error;
-      }
+      this.shouldStop = true;
+    }
+    else if (this.state === SERVER_STATES.STOPPING) {
+      console.log('Server is already stopping');
+    }
+    else {
+      console.log('Server has not started and is not starting');
     }
   }
 }
