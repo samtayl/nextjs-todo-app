@@ -1,12 +1,16 @@
-const {spawn} = require('child_process');
-const path = require('path');
-const dotenv = require('dotenv');
-const waitOn = require('wait-on');
+import {spawn} from 'child_process';
+import path from 'path';
+import {fileURLToPath} from 'url';
+import dotenv from 'dotenv';
+import waitOn from 'wait-on';
 
-dotenv.config({path: path.resolve(__dirname, 'fixtures/.env')});
+const filepath = fileURLToPath(import.meta.url);
+const dirname = path.dirname(filepath);
 
-const startServerScriptPath = path.resolve(__dirname, '../bin/serve.js');
-const fixturesPath = path.resolve(__dirname, 'fixtures');
+dotenv.config({path: path.resolve(dirname, 'fixtures/.env')});
+
+const startServerScriptPath = path.resolve(dirname, '../bin/serve.js');
+const fixturesPath = path.resolve(dirname, 'fixtures');
 
 test('the server starts', async () => {
   const childProcess = spawn('node', [startServerScriptPath], {cwd: fixturesPath});

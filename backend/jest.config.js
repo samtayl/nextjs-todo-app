@@ -1,3 +1,4 @@
 export default {
-  testMatch: ['**/test/**/*.cjs'],
+  testMatch: ['**/test/**/*.js'],
+  transform: {},
 };

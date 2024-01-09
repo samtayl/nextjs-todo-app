@@ -1,7 +1,7 @@
 module.exports = {
   overrides: [
     {
-      files: ['**/test/**/*.cjs'],
+      files: ['**/test/**/*.js'],
       plugins: ['jest'],
       extends: ['plugin:jest/recommended'],
     },
