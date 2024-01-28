@@ -5,7 +5,7 @@
   "files": [
     "bin",
     "app",
-    "server.js"
+    "server"
   ],
   "bin": {
     "serve": "./bin/serve.js"

@@ -1,6 +1,6 @@
 import {createServer} from 'http';
 import {promisify} from 'util';
-import app from './app/index.js';
+import app from './app.js';
 
 const SERVER_STATES = {
   STARTING: Symbol('STARTING'),
