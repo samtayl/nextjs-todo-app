@@ -1,6 +1,5 @@
 import {createServer} from 'http';
 import {promisify} from 'util';
-import 'dotenv/config';
 import app from './app/index.js';
 
 const SERVER_STATES = {

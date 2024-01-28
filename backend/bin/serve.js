@@ -1,5 +1,6 @@
 #!/usr/bin/env node
 
+import 'dotenv/config';
 import Server from '../server.js';
 
 const server = new Server();

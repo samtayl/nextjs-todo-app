@@ -13,7 +13,6 @@ import {
 
 import hpp from 'hpp';
 import xssClean from 'xss-clean';
-import 'dotenv/config';
 import {validateAccessToken} from './middleware/auth.js';
 import profileRouter from './routes/profile.js';
 
